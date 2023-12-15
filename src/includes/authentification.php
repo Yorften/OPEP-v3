@@ -1,9 +1,16 @@
 <?php
 require_once('conn.php');
 
-class Register extends Connection
+class Register
 {
+    private $conn;
     public $userId;
+
+    public function __construct()
+    {
+        $this->conn = Connection::getInstance()->getConnection();
+    }
+
     public function register($username, $email, $password)
     {
         try {
@@ -30,19 +37,25 @@ class Register extends Connection
     }
 }
 
-class Login extends Connection
+class Login
 {
+    private $conn;
     public $userId;
     public $userName;
     public $isVerified;
     public $roleId;
     public $cartId;
 
+    public function __construct()
+    {
+        $this->conn = Connection::getInstance()->getConnection();
+    }
+
     public function login($email, $password)
     {
         try {
             $stmt = $this->conn->prepare("SELECT * FROM users WHERE userEmail = ?;");
-            $stmt->bindParam(1, $email);
+            $stmt->bindParam(1, $email, PDO::PARAM_STR);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -54,7 +67,7 @@ class Login extends Connection
 
                 if (password_verify($password, $password_db)) {
                     $stmt = $this->conn->prepare("SELECT * FROM carts WHERE userId = ?;");
-                    $stmt->bindParam(1, $userId);
+                    $stmt->bindParam(1, $userId, PDO::PARAM_INT);
                     $stmt->execute();
                     if ($stmt->rowCount() > 0) {
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -77,21 +90,27 @@ class Login extends Connection
     }
 }
 
-class Role extends Connection
+class Role
 {
+    private $conn;
     public $userId;
     public $userName;
     public $cartId;
+
+    public function __construct()
+    {
+        $this->conn = Connection::getInstance()->getConnection();
+    }
 
     public function setRole($userId, $userName, $choice)
     {
         if ($choice === "client") {
             try {
                 $stmt = $this->conn->prepare("UPDATE users SET roleId = 1 WHERE userId = ?");
-                $stmt->bindParam(1, $userId);
+                $stmt->bindParam(1, $userId, PDO::PARAM_INT);
                 $stmt->execute();
                 $stmt = $this->conn->prepare("INSERT INTO carts (userId) VALUES (?)");
-                $stmt->bindParam(1, $userId);
+                $stmt->bindParam(1, $userId, PDO::PARAM_INT);
                 $stmt->execute();
                 $this->cartId = $this->conn->lastInsertId();
                 $this->userId = $userId;
@@ -103,7 +122,7 @@ class Role extends Connection
         } else {
             try {
                 $stmt = $this->conn->prepare("UPDATE users SET roleId = 2, isVerified = 0 WHERE userId = ?");
-                $stmt->bindParam(1, $userId);
+                $stmt->bindParam(1, $userId, PDO::PARAM_INT);
                 $stmt->execute();
                 $result = 202;
             } catch (PDOException $e) {

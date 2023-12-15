@@ -16,7 +16,7 @@ if (isset($_SESSION['administrator_name'])) {
 <html lang="en">
 
 <head>
-    <?php include("../includes/head.html") ?>
+    <?php include("../components/head.html") ?>
     <title>Dashboard</title>
 </head>
 
@@ -45,9 +45,9 @@ if (isset($_SESSION['administrator_name'])) {
                 <hr class="border-black w-full">
                 <div class="flex flex-col">
                     <p class="font-semibold">BLOG</p>
-                    <a href="../blogpages/manageTags.php" target="contentFrame">Tags</a>
-                    <a href="../blogpages/manageThemes.php" target="contentFrame">Themes</a>
-                    <a href="../blogpages/manageArticles.php" target="contentFrame">Articles</a>
+                    <a href="manageTags.php" target="contentFrame">Tags</a>
+                    <a href="manageThemes.php" target="contentFrame">Themes</a>
+                    <a href="manageArticles.php" target="contentFrame">Articles</a>
                 </div>
             </div>
         </div>
@@ -62,7 +62,7 @@ if (isset($_SESSION['administrator_name'])) {
     </div>
 
 
-    <?php include("../includes/footer_admin.html") ?>
+    <?php include("../components/footer_admin.html") ?>
 
 </body>
 

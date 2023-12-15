@@ -1,6 +1,5 @@
 <?php
 
-include("../includes/conn.php");
 session_start();
 
 if (!isset($_SESSION['administrator_name'])) {
@@ -14,14 +13,14 @@ if (!isset($_SESSION['administrator_name'])) {
 <html lang="en">
 
 <head>
-    <?php include("../includes/head.html") ?>
+    <?php include("../components/head.html") ?>
     <title>Dashboard</title>
 </head>
 
 <body>
     <div class="flex h-[95vh]">
         <!-- Fixed menu -->
-        <div class="flex flex-col p-5 w-64 bg-[#bdff72]">
+        <div class="flex flex-col p-5 w-64 bg-[#bdff72] rounded-lg shadow-[rgba(0,0,15,0.1)_8px_1px_4px_0px] ">
             <div class="block mb-5 w-1/3 sm:w-1/4 md:w-1/12">
                 <a href="../../index.php">
                     <p class="text-black text-3xl">OPEP</p>
@@ -44,9 +43,9 @@ if (!isset($_SESSION['administrator_name'])) {
                 <hr class="border-black w-full">
                 <div class="flex flex-col">
                     <p class=" font-semibold">BLOG</p>
-                    <a href="../blogpages/manageTags.php" target="contentFrame">Tags</a>
-                    <a href="../blogpages/manageThemes.php" target="contentFrame">Themes</a>
-                    <a href="../blogpages/manageArticles.php" target="contentFrame">Articles</a>
+                    <a href="manageTags.php" target="contentFrame">Tags</a>
+                    <a href="manageThemes.php" target="contentFrame">Themes</a>
+                    <a href="manageArticles.php" target="contentFrame">Articles</a>
                 </div>
             </div>
         </div>
@@ -60,7 +59,7 @@ if (!isset($_SESSION['administrator_name'])) {
         </div>
     </div>
 
-    <?php include("../includes/footer_admin.html") ?>
+    <?php include("../components/footer_admin.html") ?>
 
 </body>
 

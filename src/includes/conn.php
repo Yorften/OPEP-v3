@@ -3,11 +3,12 @@ session_start();
 
 class Connection
 {
+    private static $instance;
     private $host = "localhost";
     private $user = "root";
     private $password = "";
     private $database = "opep2";
-    protected $conn;
+    private $conn;
 
     public function __construct()
     {
@@ -20,6 +21,16 @@ class Connection
             echo "Connection failed: " . $e->getMessage();
         }
     }
+    public static function getInstance()
+    {
+        if (!self::$instance) {
+            self::$instance = new Connection();
+        }
+        return self::$instance;
+    }
+
+    public function getConnection()
+    {
+        return $this->conn;
+    }
 }
-
-

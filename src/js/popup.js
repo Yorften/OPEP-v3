@@ -19,13 +19,12 @@ window.onclick = function (event) {
 
 function showDetails(itemId) {
   document.getElementById("popupEdit").classList.remove("hidden");
-  // Append the item ID to the URL without reloading the page
-  history.pushState(null, null, "?categoryId=" + itemId);
+  var categoryName = document.getElementById("category"+itemId).textContent;
+  document.getElementById("categoryname2").value = categoryName;
+  console.log(categoryName);
 }
 
 function showPlantDetails(itemId) {
   document.getElementById("popupEdit").classList.remove("hidden");
-  // Append the item ID to the URL without reloading the page
-  // itemImage = itemImage.replace(/'/g, '');
-  history.pushState(null, null, "?plantId=" + itemId);
+ 
 }

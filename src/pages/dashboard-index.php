@@ -1,11 +1,14 @@
 <?php
-include("../includes/conn.php");
-session_start();
+require_once '../includes/pages.php';
+require_once '../includes/commands.php';
 
 if (isset($_SESSION['client_name'])) {
-    echo "You don't have permission";
+    header('location:' . $_SERVER['HTTP_REFERER']);
     exit;
 }
+
+$allPages = new Pages();
+$commands = new Commands();
 
 ?>
 
@@ -13,7 +16,7 @@ if (isset($_SESSION['client_name'])) {
 <html lang="en">
 
 <head>
-    <?php include("../includes/head.html") ?>
+    <?php include("../components/head.html") ?>
 </head>
 
 <body>
@@ -22,35 +25,24 @@ if (isset($_SESSION['client_name'])) {
             <p class="border-gray-300 rounded-t-lg p-2 pb-1 text-xl">Commands</p>
         </div>
         <div class="border-2 border-gray-300 rounded-xl h-[90vh] w-full flex">
-            <div class="flex flex-col justify-between w-full p-4">
+            <div class="flex flex-col justify-between w-full p-4 shadow-3xl">
                 <?php
-                $role = 1;
-                $records = $conn->query("SELECT * FROM commands");
-                $rows = $records->num_rows;
-
                 $start = 0;
                 $rows_per_page = 6;
-                if (isset($_GET['page'])) {
-                    $page = $_GET['page'] - 1;
-                    $start = $page * $rows_per_page;
-                }
-                $select = "SELECT * FROM commands JOIN carts ON commands.cartId = carts.cartId JOIN users ON carts.userId = users.userId LIMIT ?,?";
-                $stmt = $conn->prepare($select);
-                $stmt->bind_param("ii", $start, $rows_per_page);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $pages = ceil($rows / $rows_per_page);
-
-
+                $result = $allPages->getPagesDetails($start, $rows_per_page, 'commands', '');
+                $start = $allPages->start;
+                $rows = $allPages->rows;
+                $pages = $allPages->pages;
                 if ($rows > 0) {
-                    while ($row = mysqli_fetch_assoc($result)) {
+                    $result = $commands->getAllCommands($start, $rows_per_page);
+                    foreach ($result as $row) {
                         $commandId = $row['commandId'];
                         $cartId = $row['cartId'];
                         $commandDate = $row['commandDate'];
                         $userName = $row['userName'];
                         $total = $row['total'];
                 ?>
-                        <a href="commanddetails.php?commandId=<?php echo $commandId ?>&cartId=<?php echo $cartId ?>&total=<?php echo $total ?>" class="w-full h-[100px] border-2 rounded-md bg-slate-200 hover:bg-[#bdff72] cursor-pointer">
+                        <a href="commandDetails.php?commandId=<?php echo $commandId ?>&cartId=<?php echo $cartId ?>&total=<?php echo $total ?>" class="w-full h-[100px] border-2 rounded-md bg-slate-200 hover:bg-[#bdff72] cursor-pointer">
                             <div class="w-full h-[90%] mx-auto flex items-center justify-around p-3 child:text-xl child:font-medium">
                                 <p>N°: <?php echo $commandId ?></p>
                                 <p><?php echo $userName ?></p>
@@ -58,7 +50,8 @@ if (isset($_SESSION['client_name'])) {
                                 <p><?php echo $total ?> DH</p>
                             </div>
                         </a>
-                <?php  }
+                <?php
+                    }
                 } else {
                     echo 'No client accounts in database';
                 }
@@ -79,7 +72,8 @@ if (isset($_SESSION['client_name'])) {
                         <a href="?page=1">First</a>
                         <?php if (isset($_GET['page']) && $_GET['page'] > 1) { ?>
 
-                            <a href="?page=<?php echo $_GET['page'] - 1 ?>">Previous</a>
+                            <a href="?page=<?php echo $_GET['page'] - 1
+                                            ?>">Previous</a>
 
                         <?php } else { ?>
                             <a class="cursor-pointer">Previous</a>

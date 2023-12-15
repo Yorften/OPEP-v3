@@ -1,66 +1,31 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+require_once '../includes/authentification.php';
 
-include("../includes/conn.php");
-
-session_start();
+$role = new Role();
 
 if (isset($_POST['submit'])) {
-
     $userId = $_GET['id'];
-    $choice = mysqli_real_escape_string($conn, $_POST['user-choice']);
+    $userName = $_GET['name'];
+    $choice = $_POST['user-choice'];
 
-    if ($choice === "client") {
+    $result = $role->setRole($userId, $userName, $choice);
 
-        $update = "UPDATE users SET roleId = ?, isVerified = ? WHERE userId = ?";
-        $stmt = $conn->prepare($update);
-        if ($stmt) {
-            $role = 1;
-            $stmt->bind_param("iii", $role, $role, $userId);
-            $stmt->execute();
-            $stmt->close();
-        } else {
-            echo "Error preparing statement: " . $conn->error;
-        }
-        $insert = "INSERT INTO carts (userId) VALUES (?)";
-        $stmt = $conn->prepare($insert);
-
-        if ($stmt) {
-            $stmt->bind_param("i", $userId);
-            $stmt->execute();
-            $cartId = $stmt->insert_id;
-            $stmt->close();
-        } else {
-            echo "Error preparing statement: " . $conn->error;
-        }
-        $select = "SELECT * FROM users WHERE userId = ?";
-        $stmt = $conn->prepare($select);
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $stmt->close();
-        $row = mysqli_fetch_assoc($result);
-        $userName = $row['userName'];
-        $_SESSION['client_cart'] = $cartId;
-        $_SESSION['client_name'] = $userName;
-        header('location:../../index.php');
-        exit;
-    } else {
-
-        $update = "UPDATE users SET roleId = ? WHERE userId = ?";
-        $stmt = $conn->prepare($update);
-        if ($stmt) {
-            $role = 2;
-            $stmt->bind_param("ii", $role, $userId);
-            $stmt->execute();
-            $stmt->close();
-        } else {
-            echo "Error preparing statement: " . $conn->error;
-        }
-        header('location:login.php');
-        exit;
+    switch ($result) {
+        case 201:
+            $_SESSION['userId'] = $role->userId;
+            $_SESSION['client_cart'] = $role->cartId;
+            $_SESSION['client_name'] = $role->userName;
+            header('location:../../index.php');
+            exit;
+        case 202:
+            header('location:login.php');
+            exit;
+        default:
+            $msg[] = 'Database Error';
+            break;
     }
 }
 
@@ -70,13 +35,13 @@ if (isset($_POST['submit'])) {
 <html lang="en">
 
 <head>
-    <?php include("../includes/head.html"); ?>
+    <?php include("../components/head.html"); ?>
     <title>Sign Up | O'PEP</title>
 </head>
 
 <body>
 
-    <?php include("../includes/nav.php") ?>
+    <?php include("../components/nav.php") ?>
 
     <div class="flex justify-center my-12">
         <div class="mx-auto w-1/2 bg-white border border-black rounded-xl">
@@ -123,7 +88,7 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 
-    <?php include("../includes/footer.html") ?>
+    <?php include("../components/footer.html") ?>
 
     <script src="../js/burger.js"></script>
     <script src="../js/cart.js"></script>

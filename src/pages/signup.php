@@ -1,6 +1,6 @@
 <?php
 
-require_once '../includes/users.php';
+require_once '../includes/authentification.php';
 
 $register = new Register();
 
@@ -24,7 +24,7 @@ if (isset($_POST['signup'])) {
     $result = $register->register($userName, $email, $password);
     if ($result) {
         $_SESSION['userId'] = $register->userId;
-        header('location:role.php?id=' . $_SESSION['userId']);
+        header('location:role.php?id=' . $_SESSION['userId'].'&name='.$userName);
         exit;
     } else {
         $msg[] = "Username or email already exists";

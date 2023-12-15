@@ -1,33 +1,33 @@
  <?php
     if (isset($_SESSION['client_name'])) {
-        $cartId = $_SESSION['client_cart'];
-        $notselected = 0;
-        $commanded = 0;
-        $selected = 1;
-        $select = "SELECT * FROM plants_carts JOIN plants ON plants_carts.plantId = plants.plantId WHERE cartId = ? AND isSelected = ? AND isCommanded = ?";
-        $stmt = $conn->prepare($select);
-        $stmt->bind_param("iii", $cartId, $notselected, $commanded);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        $count = mysqli_num_rows($result);
-        $totalPrice = 0;
-        $totalPrice2 = 0;
+    //     $cartId = $_SESSION['client_cart'];
+    //     $notselected = 0;
+    //     $commanded = 0;
+    //     $selected = 1;
+    //     $select = "SELECT * FROM plants_carts JOIN plants ON plants_carts.plantId = plants.plantId WHERE cartId = ? AND isSelected = ? AND isCommanded = ?";
+    //     $stmt = $conn->prepare($select);
+    //     $stmt->bind_param("iii", $cartId, $notselected, $commanded);
+    //     $stmt->execute();
+    //     $result = $stmt->get_result();
+    //     $count = mysqli_num_rows($result);
+    //     $totalPrice = 0;
+    //     $totalPrice2 = 0;
 
-        $select2 = "SELECT * FROM plants_carts JOIN plants ON plants_carts.plantId = plants.plantId WHERE cartId = ? AND isSelected = ? AND isCommanded = ?";
-        $stmt2 = $conn->prepare($select2);
-        $stmt2->bind_param("iii", $cartId, $selected, $commanded);
-        $stmt2->execute();
-        $result2 = $stmt2->get_result();
-        $count2 = mysqli_num_rows($result2);
+    //     $select2 = "SELECT * FROM plants_carts JOIN plants ON plants_carts.plantId = plants.plantId WHERE cartId = ? AND isSelected = ? AND isCommanded = ?";
+    //     $stmt2 = $conn->prepare($select2);
+    //     $stmt2->bind_param("iii", $cartId, $selected, $commanded);
+    //     $stmt2->execute();
+    //     $result2 = $stmt2->get_result();
+    //     $count2 = mysqli_num_rows($result2);
 
-        if (isset($_POST['deleteCart'])) {
-            $plantId = $_POST['plantId'];
-            $delete = "DELETE FROM plants_carts WHERE cartId = ? AND plantId = ?";
-            $stmt = $conn->prepare($delete);
-            $stmt->bind_param("ii", $cartId, $plantId);
-            $stmt->execute();
-            $stmt->close();
-        }
+    //     if (isset($_POST['deleteCart'])) {
+    //         $plantId = $_POST['plantId'];
+    //         $delete = "DELETE FROM plants_carts WHERE cartId = ? AND plantId = ?";
+    //         $stmt = $conn->prepare($delete);
+    //         $stmt->bind_param("ii", $cartId, $plantId);
+    //         $stmt->execute();
+    //         $stmt->close();
+    //     }
     }
     ?>
 

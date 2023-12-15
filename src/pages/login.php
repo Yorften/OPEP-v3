@@ -1,5 +1,7 @@
 <?php
-require_once '../includes/users.php';
+require_once '../includes/authentification.php';
+
+$login = new Login();
 
 if (isset($_SESSION['client_name'])) {
     header('location:../../index.php');
@@ -12,12 +14,54 @@ if (isset($_SESSION['client_name'])) {
     exit;
 }
 
-if (isset($_POST['submit'])) {
+if (isset($_POST['login'])) {
 
     $email = $_POST['email'];
     $password = trim($_POST['password']);
 
-    
+    $result = $login->login($email, $password);
+    switch ($result) {
+        case 200:
+            if ($login->isVerified == 1) {
+                switch ($login->roleId) {
+                    case 1:
+                        $_SESSION['client_cart'] = $login->cartId;
+                        $_SESSION['client_name'] = $login->userName;
+                        $_SESSION['userId'] = $login->userId;
+                        header('location:../../index.php');
+                        exit;
+                        break;
+                    case 2:
+                        $_SESSION['userId'] =  $login->userId;
+                        $_SESSION['admin_name'] = $login->userName;
+                        header('location:dashboard.php');
+                        exit;
+                        break;
+                    case 3:
+                        $_SESSION['userId'] = $userId;
+                        $_SESSION['administrator_name'] = $login->userName;
+                        header('location:controlpanel.php');
+                        exit;
+                        break;
+
+                    default:
+                        $_SESSION['userId'] = $login->userId;
+                        header('location:role.php?id=' . $_SESSION['userId'].'&name='.$login->userName);
+                        exit;
+                        break;
+                }
+            } else $msg[] = "Your account is locked, please contact support";
+            break;
+        case 403:
+            $msg[] = 'Incorrect email or password 403';
+            break;
+        case 404:
+            $msg[] = 'Incorrect email or password 404';
+            break;
+        default:
+            $msg[] = 'dafault';
+            break;
+    }
 }
 
 ?>
@@ -74,7 +118,7 @@ if (isset($_POST['submit'])) {
                     <a href="signup.php" class="text-sm text-gray-800 underline">Don't have an account yet? Sign Up</a>
                 </div>
                 <div class="flex justify-end mb-4">
-                    <input type="submit" name="submit" class="cursor-pointer px-8 py-2 bg-[#9fff30] font-semibold rounded-lg border-2 border-[#6da22f]" value="Log in">
+                    <input type="submit" name="login" class="cursor-pointer px-8 py-2 bg-[#9fff30] font-semibold rounded-lg border-2 border-[#6da22f]" value="Log in">
                 </div>
             </form>
 

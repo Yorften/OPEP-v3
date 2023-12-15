@@ -3,11 +3,11 @@ session_start();
 
 class Connection
 {
-    public $host = "localhost";
-    public $user = "root";
-    public $password = "";
-    public $database = "opep2";
-    public $conn;
+    private $host = "localhost";
+    private $user = "root";
+    private $password = "";
+    private $database = "opep2";
+    protected $conn;
 
     public function __construct()
     {

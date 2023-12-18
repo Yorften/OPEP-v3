@@ -37,59 +37,51 @@ if (isset($_POST['changeStatus'])) {
 
             <div id="mods" class="flex flex-col justify-between w-full p-4">
                 <?php
-                $role = 2;
-                $records = $conn->query("SELECT * FROM users WHERE roleId = $role");
-                $rows = $records->num_rows;
-
                 $start = 0;
                 $rows_per_page = 8;
-                if (isset($_GET['page'])) {
-                    $page = $_GET['page'] - 1;
-                    $start = $page * $rows_per_page;
-                }
-                $select = "SELECT * FROM users WHERE roleId = ? LIMIT ?,?";
-                $stmt = $conn->prepare($select);
-                $stmt->bind_param("iii", $role, $start, $rows_per_page);
-                $stmt->execute();
-                $result = $stmt->get_result();
-                $pages = ceil($rows / $rows_per_page);
-
-
+                $result = $allPages->getPagesDetails($start, $rows_per_page, 'users', 'WHERE roleId = 2');
+                $start = $allPages->getStart();
+                $rows = $allPages->getRows();
+                $pages = $allPages->getPages();
 
                 if ($rows > 0) {
+                    $users = $user->getModsPage($start, $rows_per_page);
                     echo ' 
         <table class="table-auto md:table-fixed w-full ">
             <thead class="border">
                 <tr class="border-2">
-                    <th class="w-1/5 p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">Client Id</th>
+                    <th class="w-1/5 p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">Admin Id</th>
                     <th class="w-1/5 p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">Name</th>
                     <th class="w-2/5 p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">Email</th>
                     <th class="w-1/5 p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">Status</th>
                 </tr>
             </thead>
             <tbody>';
-                    while ($row = mysqli_fetch_assoc($result)) {
-                        $name = htmlspecialchars($row['userName']);
-                        $id = htmlspecialchars($row['userId']);
-                        $email = htmlspecialchars($row['userEmail']);
-                        $status = htmlspecialchars($row['isVerified']);
+                    foreach ($users as $user1) {
                         echo '
-                <tr>
-                    <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">' . $id . '</td>
-                    <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">' . $name . '</td>
-                    <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">' . $email . '</td>
-            ';
-                        if ($status == 1) {
-                            echo '
-                    <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center">
-                        <a href="changestatus.php?id=' . $id . '&status=' . $status . '" class="p px-2 rounded-md bg-green-600"> Active </a>
-                    </td>';
-                        } else {
-                            echo '
-                    <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center">
-                        <a href="changestatus.php?id=' . $id . '&status=' . $status . '" class="p px-2 rounded-md bg-red-600"> Disabled </a>
-                    </td>';
-                        }
+    <tr>
+        <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">' . $user1->getId() . '</td>
+        <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">' . $user1->getName() . '</td>
+        <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">' . $user1->getEmail() . '</td>
+';
+                        if ($user1->getIsVerified() == 1) { ?>
+                            <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center">
+                                <form method="post" class="inline">
+                                    <input type="hidden" name="isVerified" value="<?= $user1->getIsVerified() ?>">
+                                    <input type="hidden" name="userId" value="<?= $user1->getId() ?>">
+                                    <input type="submit" name="changeStatus" class="px-2 cursor-pointer rounded-md bg-green-500" value="Active">
+                                </form>
+                            </td>
+                        <?php  } else { ?>
+
+                            <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center">
+                                <form method="post" class="inline">
+                                    <input type="hidden" name="isVerified" value="<?= $user1->getIsVerified() ?>">
+                                    <input type="hidden" name="userId" value="<?= $user1->getId() ?>">
+                                    <input type="submit" name="changeStatus" class="px-2 cursor-pointer rounded-md bg-red-500" value="Disabled">
+                                </form>
+                            </td>
+                <?php  }
                         echo '</tr>';
                     }
                     echo '

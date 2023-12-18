@@ -53,10 +53,10 @@ if (isset($_POST['login'])) {
             } else $msg[] = "Your account is locked, please contact support";
             break;
         case 403:
-            $msg[] = 'Incorrect email or password 403';
+            $msg[] = 'Incorrect email or password';
             break;
         case 404:
-            $msg[] = 'Incorrect email or password 404';
+            $msg[] = 'Incorrect email or password';
             break;
         default:
             $msg[] = 'dafault';
@@ -128,7 +128,6 @@ if (isset($_POST['login'])) {
 
     <script src="../js/burger.js"></script>
     <script src="../js/cart.js"></script>
-    <script src="../js/regex.js"></script>
 </body>
 
 </html>

@@ -5,10 +5,8 @@ class Category
     private $Id;
     private $Name;
 
-    public function __construct($Id, $Name)
+    public function __construct()
     {
-        $this->Id = $Id;
-        $this->Name = $Name;
     }
 
     public function getId()
@@ -18,5 +16,13 @@ class Category
     public function getName()
     {
         return $this->Name;
+    }
+    public function setName($name)
+    {
+        $this->Name = $name;
+    }
+    public function setId($id)
+    {
+        $this->Id = $id;
     }
 }

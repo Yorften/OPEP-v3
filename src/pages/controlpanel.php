@@ -20,7 +20,7 @@ if (!isset($_SESSION['administrator_name'])) {
 <body>
     <div class="flex h-[95vh]">
         <!-- Fixed menu -->
-        <div class="flex flex-col p-5 w-64 bg-[#bdff72] rounded-lg shadow-[rgba(0,0,15,0.1)_8px_1px_4px_0px] ">
+        <div class="flex flex-col p-5 w-64 bg-[#bdff72] rounded-lg shadow-[rgba(0,0,15,0.1)_8px_1px_4px_0px] hidden md:flex">
             <div class="block mb-5 w-1/3 sm:w-1/4 md:w-1/12">
                 <a href="../../index.php">
                     <p class="text-black text-3xl">OPEP</p>

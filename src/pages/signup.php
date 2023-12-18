@@ -95,12 +95,11 @@ if (isset($_POST['signup'])) {
                         <div id="repeatErr" class="text-red-600 text-xs pl-3"></div>
                     </div>
 
-
+                    <input type="hidden" class="border-red-500">
                 </div>
                 <div class="flex justify-start mb-8">
                     <a href="login.php" class="text-sm text-gray-800 underline">Already have an account? Log In</a>
                 </div>
-                <input type="hidden" name="signup" value="1">
                 <div class="flex justify-end mb-4">
                     <input id="signbutton" type="submit" name="signup" class="cursor-pointer px-8 py-2 bg-[#9fff30] font-semibold rounded-lg border-2 border-[#6da22f]" value="Continue">
                 </div>

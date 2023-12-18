@@ -30,9 +30,9 @@ $commands = new Commands();
                 $start = 0;
                 $rows_per_page = 6;
                 $result = $allPages->getPagesDetails($start, $rows_per_page, 'commands', '');
-                $start = $allPages->start;
-                $rows = $allPages->rows;
-                $pages = $allPages->pages;
+                $start = $allPages->getStart();
+                $rows = $allPages->getRows();
+                $pages = $allPages->getPages();
                 if ($rows > 0) {
                     $result = $commands->getAllCommands($start, $rows_per_page);
                     foreach ($result as $row) {
@@ -43,7 +43,7 @@ $commands = new Commands();
                         $total = $row['total'];
                 ?>
                         <a href="commandDetails.php?commandId=<?php echo $commandId ?>&cartId=<?php echo $cartId ?>&total=<?php echo $total ?>" class="w-full h-[100px] border-2 rounded-md bg-slate-200 hover:bg-[#bdff72] cursor-pointer">
-                            <div class="w-full h-[90%] mx-auto flex items-center justify-around p-3 child:text-xl child:font-medium">
+                            <div class="w-full h-[90%] mx-auto flex items-center justify-around p-3 child:text-base md:child:text-xl child:font-medium">
                                 <p>N°: <?php echo $commandId ?></p>
                                 <p><?php echo $userName ?></p>
                                 <p><?php echo $commandDate ?></p>

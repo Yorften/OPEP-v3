@@ -4,6 +4,15 @@
 // error_reporting(E_ALL);
 require_once '../includes/authentification.php';
 
+if (!isset($_SESSION['userId'])) {
+    echo "You don't have permission";
+    exit;
+}
+if ($_SESSION['userId'] !== $_GET['id']) {
+    echo "You don't have permission";
+    exit;
+}
+
 $role = new Role();
 
 if (isset($_POST['submit'])) {

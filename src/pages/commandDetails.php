@@ -26,7 +26,7 @@ $total = isset($_GET['total']) ? intval($_GET['total']) : 0;
 
 <body>
     <div class="flex flex-col justify-end items-start h-[100vh]">
-        <div class="flex justify-between w-full px-8">
+        <div class="flex justify-between items-center w-full md:px-8">
             <p class="border-gray-300 rounded-t-lg p-2 pb-1 text-xl">Command N°: <?php echo $commandId ?></p>
             <p>Total price: <?php echo $total ?> DH</p>
         </div>
@@ -36,11 +36,11 @@ $total = isset($_GET['total']) ? intval($_GET['total']) : 0;
                 $start = 0;
                 $rows_per_page = 8;
                 $result = $allPages->getPagesDetails($start, $rows_per_page, 'plants_carts', ' WHERE cartId = ' . $cartId . ' AND isCommanded = ' . $commandId);
-                $start = $allPages->start;
-                $rows = $allPages->rows;
-                $pages = $allPages->pages;
+                $start = $allPages->getStart();
+                $rows = $allPages->getRows();
+                $pages = $allPages->getPages();
                 ?>
-                <table class="table-fixed w-full ">
+                <table class="table-auto md:table-fixed w-full ">
                     <thead class="border">
                         <tr class="border-2">
                             <th class="w-[30%] p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base">Plant</th>
@@ -62,11 +62,11 @@ $total = isset($_GET['total']) ? intval($_GET['total']) : 0;
 
                         ?>
                             <tr>
-                                <td class="px-4 py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $plantName ?></td>
-                                <td class="px-4 py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $categoryName ?></td>
-                                <td class="px-4 py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $quantity ?></td>
-                                <td class="px-4 py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $plantPrice ?></td>
-                                <td class="px-4 py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $totalPrice ?></td>
+                                <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $plantName ?></td>
+                                <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $categoryName ?></td>
+                                <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $quantity ?></td>
+                                <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $plantPrice ?></td>
+                                <td class="p-1 md:px-4 md:py-2 border-2 border-[#A3A3A3] text-xs md:text-base text-center"><?php echo $totalPrice ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

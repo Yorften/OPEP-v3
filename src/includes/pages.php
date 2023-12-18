@@ -6,10 +6,28 @@ require_once('conn.php');
 class Pages
 {
     private $conn;
-    public $start;
-    public $rows;
-    public $rows_per_page;
-    public $pages;
+    private $start;
+    private $rows;
+    private $rows_per_page;
+    private $pages;
+
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    public function getRows()
+    {
+        return $this->rows;
+    }
+    public function getRows_per_page()
+    {
+        return $this->rows_per_page;
+    }
+    public function getPages()
+    {
+        return $this->pages;
+    }
 
     public function __construct(){
         $this->conn = Connection::getInstance()->getConnection(); 
@@ -23,7 +41,7 @@ class Pages
             $rows = $stmt->rowCount();
             $this->rows = $stmt->rowCount();
             $this->start = $start;
-            $this->$rows_per_page = $rows_per_page;
+            $this->rows_per_page = $rows_per_page;
             if (isset($_GET['page'])) {
                 $page = $_GET['page'] - 1;
                 $this->start = $page * $rows_per_page;

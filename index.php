@@ -435,9 +435,11 @@ session_start();
                 </div>
             </div>
         </div>
-
         <div class="md:text-center md:text-black">
             <p>© 2023 O'PEP. All Rights Reserved.</p>
+        </div>
+        <div class="text-center text-black pt-4 md:hidden">
+            <p>© All Rights Reserved</p>
         </div>
     </div>
     <script src="src/js/burger.js"></script>

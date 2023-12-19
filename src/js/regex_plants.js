@@ -21,25 +21,23 @@ function validateForm() {
   } else return false;
 }
 
-// function validateFormEdit() {
-//   let plant = document.getElementById("plant2").value;
-//   let plantdesc = document.getElementById("plantdesc2").value;
-//   let plantprice = document.getElementById("plantprice2").value;
-//   let plantimg = document.getElementById("plantimg2").value;
-//   let category = document.getElementById("category2").value;
+function validateFormEdit() {
+  let plant = document.getElementById("plant2").value;
+  let plantdesc = document.getElementById("plantdesc2").value;
+  let plantprice = document.getElementById("plantprice2").value;
+  let category = document.getElementById("category2").value;
 
 
-//   let plantErr = validatePlantEdit(plant);
-//   let plantdescErr = validateDescEdit(plantdesc);
-//   let plantpriceErr = validatePriceEdit(plantprice);
-//   let plantimgErr = validateImgEdit(plantimg);
-//   let categoryErr = validateCategoryEdit(category);
+  let plantErr = validatePlantEdit(plant);
+  let plantdescErr = validateDescEdit(plantdesc);
+  let plantpriceErr = validatePriceEdit(plantprice);
+  let categoryErr = validateCategoryEdit(category);
 
-//   if (plantErr && plantdescErr && plantpriceErr && plantimgErr && categoryErr) {
-//     console.log("true");
-//     return true;
-//   } else return false;
-// }
+  if (plantErr && plantdescErr && plantpriceErr && categoryErr) {
+    console.log("true");
+    return true;
+  } else return false;
+}
 
 function validatePlant(arg) {
   if (arg == "" || arg == null) {
@@ -60,13 +58,32 @@ function validatePlant(arg) {
   }
 }
 
+function validatePlantEdit(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantInput2").classList.add("border-red-500");
+    printError("plantErr2", "Please enter a plant name");
+    return false;
+  } else {
+    var regex = /^(?!\s)[\w\sé]+$/;
+    if (!regex.test(arg)) {
+      document.getElementById("plantInput2").classList.add("border-red-500");
+      printError("plantErr2", "Please enter a valid name (special characters)");
+      return false;
+    } else {
+      document.getElementById("plantInput2").classList.remove("border-red-500");
+      printError("plantErr2", "");
+      return true;
+    }
+  }
+}
+
 function validateDesc(arg) {
   if (arg == "" || arg == null) {
     document.getElementById("plantdescInput").classList.add("border-red-500");
     printError("plantdescErr", "Please enter a plant name");
     return false;
   } else {
-    var regex = /^(?!\s)[\w\sé]+$/;
+    var regex = /^(?!\s)[\w\sé!.,-_]+$/;
     if (!regex.test(arg)) {
       document.getElementById("plantdescInput").classList.add("border-red-500");
       printError(
@@ -79,6 +96,30 @@ function validateDesc(arg) {
         .getElementById("plantdescInput")
         .classList.remove("border-red-500");
       printError("plantdescErr", "");
+      return true;
+    }
+  }
+}
+
+function validateDescEdit(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantdescInput2").classList.add("border-red-500");
+    printError("plantdescErr2", "Please enter a plant name");
+    return false;
+  } else {
+    var regex = /^(?!\s)[\w\sé!.,-_]+$/;
+    if (!regex.test(arg)) {
+      document.getElementById("plantdescInput2").classList.add("border-red-500");
+      printError(
+        "plantdescErr2",
+        "Please enter a valid name (special characters)"
+      );
+      return false;
+    } else {
+      document
+        .getElementById("plantdescInput2")
+        .classList.remove("border-red-500");
+      printError("plantdescErr2", "");
       return true;
     }
   }
@@ -102,6 +143,29 @@ function validatePrice(arg) {
         .getElementById("plantpriceInput")
         .classList.remove("border-red-500");
       printError("plantpriceErr", "");
+      return true;
+    }
+  }
+}
+
+function validatePriceEdit(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantpriceInput2").classList.add("border-red-500");
+    printError("plantpriceErr2", "Please enter the plant price");
+    return false;
+  } else {
+    var regex = /^\d+$/;
+    if (!regex.test(arg)) {
+      document
+        .getElementById("plantpriceInput2")
+        .classList.add("border-red-500");
+      printError("plantpriceErr2", "Please enter a number");
+      return false;
+    } else {
+      document
+        .getElementById("plantpriceInput2")
+        .classList.remove("border-red-500");
+      printError("plantpriceErr2", "");
       return true;
     }
   }
@@ -131,6 +195,18 @@ function validateCategory(arg) {
   }
 }
 
+function validateCategoryEdit(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("categoryInput2").classList.add("border-red-500");
+    printError("categoryErr2", "Please select a category");
+    return false;
+  } else {
+    document.getElementById("categoryInput2").classList.remove("border-red-500");
+    printError("categoryErr2", "");
+    return true;
+  }
+}
+
 // ----------------------------------------------------------
 
 function keydownValidation() {
@@ -139,6 +215,11 @@ function keydownValidation() {
   let plantprice = document.getElementById("plantprice");
   let plantimg = document.getElementById("plantimg");
   let category = document.getElementById("category");
+
+  let plant2 = document.getElementById("plant2");
+  let plantdesc2 = document.getElementById("plantdesc2");
+  let plantprice2 = document.getElementById("plantprice2");
+  let category2 = document.getElementById("category2");
 
   plant.addEventListener("input", function () {
     validatePlant(plant.value);
@@ -155,6 +236,19 @@ function keydownValidation() {
   category.addEventListener("input", function () {
     validateCategory(category.value);
   });
+
+  plant2.addEventListener("input", function () {
+    validatePlantEdit(plant2.value);
+  });
+  plantdesc2.addEventListener("input", function () {
+    validateDescEdit(plantdesc2.value);
+  });
+  plantprice2.addEventListener("input", function () {
+    validatePriceEdit(plantprice2.value);
+  });
+  category2.addEventListener("input", function () {
+    validateCategoryEdit(category2.value);
+  });
 }
 
 function initValidation() {
@@ -163,6 +257,11 @@ function initValidation() {
   let plantprice = document.getElementById("plantprice");
   let plantimg = document.getElementById("plantimg");
   let category = document.getElementById("category");
+
+  let plant2 = document.getElementById("plant2");
+  let plantdesc2 = document.getElementById("plantdesc2");
+  let plantprice2 = document.getElementById("plantprice2");
+  let category2 = document.getElementById("category2");
 
   plant.addEventListener("blur", function () {
     validatePlant(plant.value);
@@ -178,6 +277,19 @@ function initValidation() {
   });
   category.addEventListener("blur", function () {
     validateCategory(category.value);
+  });
+
+  plant2.addEventListener("blur", function () {
+    validatePlantEdit(plant2.value);
+  });
+  plantdesc2.addEventListener("blur", function () {
+    validateDescEdit(plantdesc2.value);
+  });
+  plantprice2.addEventListener("blur", function () {
+    validatePriceEdit(plantprice2.value);
+  });
+  category2.addEventListener("blur", function () {
+    validateCategoryEdit(category2.value);
   });
 }
 

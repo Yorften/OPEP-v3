@@ -15,11 +15,11 @@ class Cart
         $this->Plant = new Plant();
     }
 
-    
+
 
     /**
      * Get the value of Plant
-     */ 
+     */
     public function getPlant()
     {
         return $this->Plant;
@@ -27,7 +27,7 @@ class Cart
 
     /**
      * Get the value of Id
-     */ 
+     */
     public function getId()
     {
         return $this->Id;
@@ -37,7 +37,7 @@ class Cart
      * Set the value of Id
      *
      * @return  self
-     */ 
+     */
     public function setId($Id)
     {
         $this->Id = $Id;
@@ -47,7 +47,7 @@ class Cart
 
     /**
      * Get the value of Quantity
-     */ 
+     */
     public function getQuantity()
     {
         return $this->Quantity;
@@ -57,7 +57,7 @@ class Cart
      * Set the value of Quantity
      *
      * @return  self
-     */ 
+     */
     public function setQuantity($Quantity)
     {
         $this->Quantity = $Quantity;
@@ -67,7 +67,7 @@ class Cart
 
     /**
      * Get the value of isSelected
-     */ 
+     */
     public function getIsSelected()
     {
         return $this->isSelected;
@@ -77,7 +77,7 @@ class Cart
      * Set the value of isSelected
      *
      * @return  self
-     */ 
+     */
     public function setIsSelected($isSelected)
     {
         $this->isSelected = $isSelected;
@@ -87,7 +87,7 @@ class Cart
 
     /**
      * Get the value of isCommanded
-     */ 
+     */
     public function getIsCommanded()
     {
         return $this->isCommanded;
@@ -97,7 +97,7 @@ class Cart
      * Set the value of isCommanded
      *
      * @return  self
-     */ 
+     */
     public function setIsCommanded($isCommanded)
     {
         $this->isCommanded = $isCommanded;
@@ -107,7 +107,7 @@ class Cart
 
     /**
      * Get the value of Plant_CartId
-     */ 
+     */
     public function getPlant_CartId()
     {
         return $this->Plant_CartId;
@@ -117,7 +117,7 @@ class Cart
      * Set the value of Plant_CartId
      *
      * @return  self
-     */ 
+     */
     public function setPlant_CartId($Plant_CartId)
     {
         $this->Plant_CartId = $Plant_CartId;

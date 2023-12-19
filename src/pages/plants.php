@@ -26,7 +26,6 @@ if (isset($_POST['submit']) && isset($_FILES['plantimg'])) {
     if ($error === 0) {
         if ($size > 4200000) {
             $msg[] = 'Sorry your file is too large. (max 4mb)';
-            exit;
         } else {
             $img_ext = pathinfo($name, PATHINFO_EXTENSION);
             $img_ext_lc = strtolower($img_ext);
@@ -37,29 +36,30 @@ if (isset($_POST['submit']) && isset($_FILES['plantimg'])) {
                 $new_img_name = uniqid("IMG-", true) . '.' . $img_ext_lc;
                 $img_upload_path = '../images/Plants/' . $new_img_name;
                 move_uploaded_file($tmp_name, $img_upload_path);
+
+                $plant->getObject()->setName($plantName);
+                $plant->getObject()->setDesc($plantDesc);
+                $plant->getObject()->setPrice($plantPrice);
+                $plant->getObject()->setImage($new_img_name);
+                $plant->getObject()->setCategory($categoryId);
+
+                $result = $plant->plantExists();
             } else {
-                echo 'Unsupported format';
                 $msg[] = 'Unsupported format. (jpg, jpeg, png, webp)';
-                exit;
             }
         }
     } else {
         $msg[] = 'Unkown error occured';
-        exit;
     }
-    $plant->getObject()->setName($plantName);
-    $plant->getObject()->setDesc($plantDesc);
-    $plant->getObject()->setPrice($plantPrice);
-    $plant->getObject()->setImage($new_img_name);
-    $plant->getObject()->setCategory($categoryId);
-    $result = $plant->plantExists();
-    if ($result > 0) {
-        $msg[] = 'Plant already exists';
-    } else {
-        $result = $plant->addPlant($plant->getObject());
-        if ($result) {
-            $msg2[] = 'Plant added succsessfully';
-        } else $msg[] = 'Unknown error';
+    if (isset($result)) {
+        if ($result > 0) {
+            $msg[] = 'Plant already exists';
+        } else {
+            $result = $plant->addPlant($plant->getObject());
+            if ($result) {
+                $msg2[] = 'Plant added succsessfully';
+            } else $msg[] = 'Unknown error';
+        }
     }
 }
 
@@ -75,11 +75,7 @@ if (isset($_POST['edit']) && isset($_FILES['plantimg'])) {
     $tmp_name = $_FILES['plantimg']['tmp_name'];
     $error = $_FILES['plantimg']['error'];
 
-    $plant->getObject()->setId($plantId);
-    $plant->getObject()->setName($plantName);
-    $plant->getObject()->setDesc($plantDesc);
-    $plant->getObject()->setPrice($plantPrice);
-    $plant->getObject()->setCategory($categoryId);
+
     if ($name == null) {
         $result = $plant->plantExistsModify();
         if ($result > 0) {
@@ -94,7 +90,6 @@ if (isset($_POST['edit']) && isset($_FILES['plantimg'])) {
         if ($error === 0) {
             if ($size > 4200000) {
                 $msg[] = 'Sorry your file is too large. (max 4mb)';
-                exit;
             } else {
                 $img_ext = pathinfo($name, PATHINFO_EXTENSION);
                 $img_ext_lc = strtolower($img_ext);
@@ -106,25 +101,30 @@ if (isset($_POST['edit']) && isset($_FILES['plantimg'])) {
                     $img_upload_path = '../images/Plants/' . $new_img_name;
                     move_uploaded_file($tmp_name, $img_upload_path);
 
+                    $plant->getObject()->setId($plantId);
+                    $plant->getObject()->setName($plantName);
+                    $plant->getObject()->setDesc($plantDesc);
+                    $plant->getObject()->setPrice($plantPrice);
+                    $plant->getObject()->setCategory($categoryId);
                     $plant->getObject()->setImage($new_img_name);
+
+                    $result = $plant->plantExistsModify();
                 } else {
-                    echo 'Unsupported format';
                     $msg[] = 'Unsupported format. (jpg, jpeg, png, webp)';
-                    exit;
                 }
             }
         } else {
             $msg[] = 'Unkown error occured';
-            exit;
         }
-        $result = $plant->plantExistsModify();
-        if ($result > 0) {
-            $msg[] = 'Plant already exists';
-        } else {
-            $result = $plant->modifyPlantImage();
-            if ($result) {
-                $msg2[] = 'Plant modified succsessfully';
-            } else $msg[] = 'Unknown error';
+        if (isset($result)) {
+            if ($result > 0) {
+                $msg[] = 'Plant already exists';
+            } else {
+                $result = $plant->modifyPlantImage();
+                if ($result) {
+                    $msg2[] = 'Plant modified succsessfully';
+                } else $msg[] = 'Unknown error';
+            }
         }
     }
 }
@@ -161,21 +161,21 @@ if (isset($_POST['delete'])) {
                         <p class="text-xs">Plant name</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plant" type="text" name="plant" placeholder="Name" autocomplete="off">
                     </div>
-                    <div id="plantERR" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantErr" class="text-red-600 text-xs pl-3"></div>
                 </div>
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant description</p>
                         <textarea required name="plantdesc" id="plantdesc" cols="10" rows="3" class=" resize-none p-1"></textarea>
                     </div>
-                    <div id="plantdescERR" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantdescErr" class="text-red-600 text-xs pl-3"></div>
                 </div>
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant price</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plantprice" type="text" name="plantprice" placeholder="Price" autocomplete="off" pattern="[0-9]+" title="Please enter numbers only">
                     </div>
-                    <div id="plantpriceERR" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantpriceErr" class="text-red-600 text-xs pl-3"></div>
                 </div>
                 <div class="flex flex-col gap-3 mb-3 w-11/12 md:w-4/6 md:flex-row">
                     <div class="flex flex-col md:w-1/2">
@@ -183,7 +183,7 @@ if (isset($_POST['delete'])) {
                             <p class="text-xs">Plant image</p>
                             <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plantimg" type="file" name="plantimg" autocomplete="off">
                         </div>
-                        <div id="plantimgERR" class="text-red-600 text-xs pl-3"></div>
+                        <div id="plantimgErr" class="text-red-600 text-xs pl-3"></div>
                     </div>
                     <div class="flex flex-col md:w-1/2">
                         <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md md:h-[63.9px]">
@@ -207,7 +207,7 @@ if (isset($_POST['delete'])) {
                                 ?>
                             </select>
                         </div>
-                        <div id="categoryERR" class="text-red-600 text-xs pl-3"></div>
+                        <div id="categoryErr" class="text-red-600 text-xs pl-3"></div>
                     </div>
                 </div>
 

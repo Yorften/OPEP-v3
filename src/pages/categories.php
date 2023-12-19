@@ -61,13 +61,13 @@ if (isset($_POST['edit'])) {
                     <span onclick="closePopup()" class="text-2xl font-bold cursor-pointer mr-3">&times;</span>
                 </div>
             </div>
-            <form method="post" class="flex flex-col justify-between items-center h-full mt-[10vh]">
-                <div class="flex flex-col mb-3">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+            <form method="post" onsubmit="return validateForm()" class="flex flex-col justify-between items-center h-full w-full mt-[10vh]">
+                <div class="flex flex-col justify-center items-center mb-3 w-full">
+                    <div id="categoryInput" class="flex flex-col w-[65%] border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Category name</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="categoryname" type="text" name="category" placeholder="Name" autocomplete="off">
                     </div>
-                    <div id="categorynameERR" class="text-red-600 text-xs pl-3"></div>
+                    <div id="categorynameErr" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                 </div>
                 <div class="flex justify-end mb-4">
                     <input required type="submit" name="submit" class="cursor-pointer px-8 py-2 bg-[#9fff30] font-semibold rounded-lg border-2 border-[#6da22f]" value="Add categorie">
@@ -84,14 +84,14 @@ if (isset($_POST['edit'])) {
                     <span onclick="closePopup()" class="text-2xl font-bold cursor-pointer mr-3">&times;</span>
                 </div>
             </div>
-            <form method="post" class="flex flex-col justify-between items-center h-full mt-[10vh]">
-                <div class="flex flex-col mb-3">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+            <form method="post" onsubmit="return validateFormEdit()" class="flex flex-col justify-between items-center h-full w-full mt-[10vh]">
+                <div class="flex flex-col justify-center items-center mb-3 w-full">
+                    <div id="categoryInput2" class="flex flex-col w-[65%] border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Category name</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="categoryname2" type="text" name="category" placeholder="Name" autocomplete="off" value="">
                         <input type="hidden" name="categoryId" id="categoryId" value="">
                     </div>
-                    <div id="categorynameERR2" class="text-red-600 text-xs pl-3"></div>
+                    <div id="categorynameErr2" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                 </div>
                 <div class="flex justify-end mb-4">
                     <input required type="submit" name="edit" class="cursor-pointer px-8 py-2 bg-[#9fff30] font-semibold rounded-lg border-2 border-[#6da22f]" value="Apply changes">
@@ -212,6 +212,7 @@ if (isset($_POST['edit'])) {
         </div>
     </div>
     <script src="../js/popup.js"></script>
+    <script src="../js/regex_categories.js"></script>
 </body>
 
 </html>

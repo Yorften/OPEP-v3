@@ -159,7 +159,7 @@
                      <div class="flex flex-col relative border-2 border-gray-400 w-full h-[140px] rounded-md mb-2">
                          <div class="flex items-center justify-end w-full bg-[#19911D] h-4 rounded-tl-[4px] rounded-tr-[4px]">
                          </div>
-                         <div class="flex gap-2 flex-col items-center justify-between md:flex-row">
+                         <div class="flex flex-col gap-2 md:flex-row items-center justify-between">
                              <img class="object-contain h-[124px]" src="../images/Plants/<?= $plantImage ?>" alt="">
                              <div class="flex flex-col justify-center items-start gap-2">
                                  <p><?= $plantName ?></p>
@@ -183,6 +183,7 @@
                     ?>
                  <div class="flex flex-col items-center justify-center h-[90vh] text-xl font-medium">
                      <p>No items in your cart</p>
+
                  </div>
              <?php
                 }
@@ -198,7 +199,7 @@
                          <input type="submit" name="removeItems" class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md cursor-pointer" value="Empty cart">
                      </form>
                  <?php } else { ?>
-
+                     <a class="border border-black bg-[#19911D] font-semibold py-1 px-4 hover:bg-[#5edb64] rounded-md" href="../pages/checkout.php">Checkout</a>
                  <?php  } ?>
              </div>
          </div>

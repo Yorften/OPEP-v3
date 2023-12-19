@@ -680,6 +680,10 @@ video {
   margin-top: 10vh;
 }
 
+.mt-12 {
+  margin-top: 3rem;
+}
+
 .block {
   display: block;
 }
@@ -885,8 +889,28 @@ video {
   width: 90%;
 }
 
+.w-\[95\%\] {
+  width: 95%;
+}
+
 .w-full {
   width: 100%;
+}
+
+.w-\[full\] {
+  width: full;
+}
+
+.w-\[60\%\] {
+  width: 60%;
+}
+
+.w-\[65\%\] {
+  width: 65%;
+}
+
+.w-\[\] {
+  width: ;
 }
 
 .flex-1 {
@@ -932,8 +956,16 @@ video {
   flex-direction: row;
 }
 
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
 .flex-col {
   flex-direction: column;
+}
+
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 
 .items-start {
@@ -1279,9 +1311,19 @@ video {
   padding-right: 0.5rem;
 }
 
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .py-2 {
@@ -1699,6 +1741,10 @@ video {
     height: fit-content;
   }
 
+  .md\:min-h-\[140px\] {
+    min-height: 140px;
+  }
+
   .md\:w-1\/12 {
     width: 8.333333%;
   }
@@ -1731,6 +1777,10 @@ video {
     width: 371px;
   }
 
+  .md\:w-\[40\%\] {
+    width: 40%;
+  }
+
   .md\:w-\[80\%\] {
     width: 80%;
   }
@@ -1751,12 +1801,20 @@ video {
     flex-direction: row;
   }
 
+  .md\:items-end {
+    align-items: flex-end;
+  }
+
   .md\:items-center {
     align-items: center;
   }
 
   .md\:justify-center {
     justify-content: center;
+  }
+
+  .md\:justify-between {
+    justify-content: space-between;
   }
 
   .md\:justify-around {
@@ -1771,8 +1829,16 @@ video {
     gap: 2.5rem;
   }
 
+  .md\:gap-2 {
+    gap: 0.5rem;
+  }
+
   .md\:p-2 {
     padding: 0.5rem;
+  }
+
+  .md\:p-0 {
+    padding: 0px;
   }
 
   .md\:px-4 {
@@ -1806,6 +1872,14 @@ video {
     padding-top: 4rem;
   }
 
+  .md\:pr-2 {
+    padding-right: 0.5rem;
+  }
+
+  .md\:text-left {
+    text-align: left;
+  }
+
   .md\:text-center {
     text-align: center;
   }
@@ -1823,6 +1897,16 @@ video {
   .md\:child\:text-xl > * {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:flex-row {
+    flex-direction: row;
+  }
+
+  .lg\:p-0 {
+    padding: 0px;
   }
 }
 

@@ -14,7 +14,7 @@ $cartId = $_SESSION['client_cart'];
 
 if (isset($_POST['increaseItem'])) {
     $Cart->getCart()->getPlant()->setId($_POST['plantId']);
-    $Cart->getCart()->setCartId($cartId);
+    $Cart->getCart()->setId($cartId);
     $Cart->getCart()->setQuantity($_POST['quantity']);
 
     $Cart->incrementQuantity($Cart->getCart());
@@ -22,7 +22,7 @@ if (isset($_POST['increaseItem'])) {
 
 if (isset($_POST['reduceItem'])) {
     $Cart->getCart()->getPlant()->setId($_POST['plantId']);
-    $Cart->getCart()->setCartId($cartId);
+    $Cart->getCart()->setId($cartId);
     $Cart->getCart()->setQuantity($_POST['quantity']);
 
     $Cart->reduceQuantity($Cart->getCart());
@@ -31,7 +31,7 @@ if (isset($_POST['reduceItem'])) {
 if (isset($_POST['selected'])) {
 
     $Cart->getCart()->getPlant()->setId($_POST['plantId']);
-    $Cart->getCart()->setCartId($cartId);
+    $Cart->getCart()->setId($cartId);
     $Cart->getCart()->setIsSelected($_POST['isSelected']);
 
     $Cart->toggleSelected($Cart->getCart());
@@ -168,7 +168,7 @@ if (isset($_POST['checkoutSelected'])) {
             <p class="text-center text-lg font-medium">Selected Items</p>
             <?php
             $Cart->getCart()->setIsCommanded($commanded);
-            $Cart->getCart()->setCartId($cartId);
+            $Cart->getCart()->setId($cartId);
             $Cart->getCart()->setIsSelected($selected);
 
             $rows2 = $Cart->getCartRows($Cart->getCart());

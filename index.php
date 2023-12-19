@@ -119,7 +119,7 @@ $Cart = new CartDAO();
             $notselected = 0;
             $commanded = 0;
             $selected = 1;
-            $Cart->getCart()->setCartId($cartId);
+            $Cart->getCart()->setId($cartId);
             $Cart->getCart()->setIsCommanded($commanded);
             $Cart->getCart()->setIsSelected($notselected);
 
@@ -128,12 +128,12 @@ $Cart = new CartDAO();
 
             if (isset($_POST['removeItem'])) {
                 $Cart->getCart()->getPlant()->setId($_POST['plantId']);
-                $Cart->getCart()->setCartId($cartId);
+                $Cart->getCart()->setId($cartId);
 
                 $Cart->removeItem($Cart->getCart());
             }
             if (isset($_POST['removeItems'])) {
-                $Cart->getCart()->setCartId($cartId);
+                $Cart->getCart()->setId($cartId);
 
                 $Cart->removeItems($Cart->getCart());
             }

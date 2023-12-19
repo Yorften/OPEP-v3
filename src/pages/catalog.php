@@ -20,7 +20,7 @@ if (isset($_POST['addCart'])) {
     $plantId = $_POST['plantId'];
     $cartId = $_SESSION['client_cart'];
     $Cart->getCart()->getPlant()->setId($plantId);
-    $Cart->getCart()->setCartId($cartId);
+    $Cart->getCart()->setId($cartId);
 
     $result = $Cart->PlantExistsInCart($Cart->getCart());
     if ($result !== NULL) {
@@ -30,7 +30,7 @@ if (isset($_POST['addCart'])) {
         } else {
             $qunatity = $result->getQuantity();
             $Cart->getCart()->getPlant()->setId($plantId);
-            $Cart->getCart()->setCartId($cartId);
+            $Cart->getCart()->setId($cartId);
             $Cart->getCart()->setQuantity($qunatity);
             $result = $Cart->incrementQuantity($Cart->getCart());
             if ($result) {

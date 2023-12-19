@@ -23,7 +23,7 @@ class CartDAO
 
     public function getCartRows(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $isSelected = $cart->getIsSelected();
         $isCommanded = $cart->getIsCommanded();
         try {
@@ -41,7 +41,7 @@ class CartDAO
 
     public function getCartItems(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $isSelected = $cart->getIsSelected();
         $isCommanded = $cart->getIsCommanded();
         try {
@@ -70,7 +70,7 @@ class CartDAO
 
     public function removeItem(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $plantId = $cart->getPlant()->getId();
         try {
             $stmt = $this->db->prepare("DELETE FROM plants_carts WHERE cartId = ? AND plantId = ?");
@@ -85,7 +85,7 @@ class CartDAO
     }
     public function removeItems(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         try {
             $stmt = $this->db->prepare("DELETE FROM plants_carts WHERE cartId = ?");
             $stmt->bindParam(1, $cartId, PDO::PARAM_INT);
@@ -100,7 +100,7 @@ class CartDAO
 
     public function addToCart(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $plantId = $cart->getPlant()->getId();
 
         try {
@@ -117,7 +117,7 @@ class CartDAO
 
     public function incrementQuantity(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $plantId = $cart->getPlant()->getId();
         $quantity = $cart->getQuantity();
         $quantity++;
@@ -138,7 +138,7 @@ class CartDAO
 
     public function reduceQuantity(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $plantId = $cart->getPlant()->getId();
         $quantity = $cart->getQuantity();
         $quantity--;
@@ -159,7 +159,7 @@ class CartDAO
 
     public function PlantExistsInCart(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $plantId = $cart->getPlant()->getId();
 
         try {
@@ -182,7 +182,7 @@ class CartDAO
 
     public function toggleSelected(Cart $cart)
     {
-        $cartId = $cart->getCartId();
+        $cartId = $cart->getId();
         $plantId = $cart->getPlant()->getId();
         $isSelected = $cart->getIsSelected();
 

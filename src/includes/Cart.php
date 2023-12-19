@@ -4,7 +4,6 @@ class Cart
 {
 
     private $Id;
-    private $CartId;
     private $Plant_CartId;
     private Plant $Plant;
     private $Quantity;
@@ -42,26 +41,6 @@ class Cart
     public function setId($Id)
     {
         $this->Id = $Id;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of CartId
-     */ 
-    public function getCartId()
-    {
-        return $this->CartId;
-    }
-
-    /**
-     * Set the value of CartId
-     *
-     * @return  self
-     */ 
-    public function setCartId($CartId)
-    {
-        $this->CartId = $CartId;
 
         return $this;
     }

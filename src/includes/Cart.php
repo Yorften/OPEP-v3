@@ -1,0 +1,127 @@
+<?php
+require_once 'Plant.php';
+class Cart
+{
+
+    private $Id;
+    private $CartId;
+    private Plant $Plant;
+    private $Quantity;
+    private $isSelected;
+    private $isCommanded;
+
+    public function __construct()
+    {
+        $this->Plant = new Plant();
+    }
+
+    
+
+    /**
+     * Get the value of Plant
+     */ 
+    public function getPlant()
+    {
+        return $this->Plant;
+    }
+
+    /**
+     * Get the value of Id
+     */ 
+    public function getId()
+    {
+        return $this->Id;
+    }
+
+    /**
+     * Set the value of Id
+     *
+     * @return  self
+     */ 
+    public function setId($Id)
+    {
+        $this->Id = $Id;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of CartId
+     */ 
+    public function getCartId()
+    {
+        return $this->CartId;
+    }
+
+    /**
+     * Set the value of CartId
+     *
+     * @return  self
+     */ 
+    public function setCartId($CartId)
+    {
+        $this->CartId = $CartId;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Quantity
+     */ 
+    public function getQuantity()
+    {
+        return $this->Quantity;
+    }
+
+    /**
+     * Set the value of Quantity
+     *
+     * @return  self
+     */ 
+    public function setQuantity($Quantity)
+    {
+        $this->Quantity = $Quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isSelected
+     */ 
+    public function getIsSelected()
+    {
+        return $this->isSelected;
+    }
+
+    /**
+     * Set the value of isSelected
+     *
+     * @return  self
+     */ 
+    public function setIsSelected($isSelected)
+    {
+        $this->isSelected = $isSelected;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of isCommanded
+     */ 
+    public function getIsCommanded()
+    {
+        return $this->isCommanded;
+    }
+
+    /**
+     * Set the value of isCommanded
+     *
+     * @return  self
+     */ 
+    public function setIsCommanded($isCommanded)
+    {
+        $this->isCommanded = $isCommanded;
+
+        return $this;
+    }
+}

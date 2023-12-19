@@ -1,9 +1,11 @@
 <?php
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-session_start();
+require_once 'src/includes/CartDAO.php';
+
+$Cart = new CartDAO();
 
 ?>
 
@@ -113,33 +115,29 @@ session_start();
     <div class="overflow-y-hidden h-[7.5vh]">
         <?php
         if (isset($_SESSION['client_name'])) {
-            // $cartId = $_SESSION['client_cart'];
-            // $notselected = 0;
-            // $commanded = 0;
-            // $selected = 1;
-            // $select = "SELECT * FROM plants_carts JOIN plants ON plants_carts.plantId = plants.plantId WHERE cartId = ? AND isSelected = ? AND isCommanded = ?";
-            // $stmt = $conn->prepare($select);
-            // $stmt->bind_param("iii", $cartId, $notselected, $commanded);
-            // $stmt->execute();
-            // $result = $stmt->get_result();
-            // $count = mysqli_num_rows($result);
-            // $totalPrice = 0;
-            // $totalPrice2 = 0;
+            $cartId = $_SESSION['client_cart'];
+            $notselected = 0;
+            $commanded = 0;
+            $selected = 1;
+            $totalPrice = 0;
+            $totalPrice2 = 0;
+            $Cart->getCart()->setCartId($cartId);
+            $Cart->getCart()->setIsCommanded($commanded);
+            $Cart->getCart()->setIsSelected($notselected);
 
-            // $select2 = "SELECT * FROM plants_carts JOIN plants ON plants_carts.plantId = plants.plantId WHERE cartId = ? AND isSelected = ? AND isCommanded = ?";
-            // $stmt2 = $conn->prepare($select2);
-            // $stmt2->bind_param("iii", $cartId, $selected, $commanded);
-            // $stmt2->execute();
-            // $result2 = $stmt2->get_result();
-            // $count2 = mysqli_num_rows($result2);
+            $rows = $Cart->getCartRows($Cart->getCart());
+            $Items = $Cart->getCartItems($Cart->getCart());
 
-            if (isset($_POST['deleteCart'])) {
-                $plantId = $_POST['plantId'];
-                $delete = "DELETE FROM plants_carts WHERE cartId = ? AND plantId = ?";
-                $stmt = $conn->prepare($delete);
-                $stmt->bind_param("ii", $cartId, $plantId);
-                $stmt->execute();
-                $stmt->close();
+            if (isset($_POST['removeItem'])) {
+                $Cart->getCart()->getPlant()->setId($_POST['plantId']);
+                $Cart->getCart()->setCartId($cartId);
+
+                $Cart->removeItem($Cart->getCart());
+            }
+            if (isset($_POST['removeItems'])) {
+                $Cart->getCart()->setCartId($cartId);
+
+                $Cart->removeItems($Cart->getCart());
             }
         }
         ?>
@@ -212,19 +210,19 @@ session_start();
                             <?php else : ?>
                                 <?php if (isset($_SESSION['client_name'])) : ?>
                                     <div class="child:text-black hidden md:block">
-                                        <a class="border-r border-black pr-[3px] mr-1"><?php echo $_SESSION['client_name']; ?>
+                                        <a class="border-r border-black pr-[3px] mr-1"><?= $_SESSION['client_name']; ?>
                                         </a>
                                         <a href="src/includes/logout.php">Log out</a>
                                     </div>
                                 <?php elseif (isset($_SESSION['admin_name'])) : ?>
                                     <div class="child:text-black hidden md:block">
-                                        <a class="border-r border-black pr-[3px] mr-1"><?php echo $_SESSION['client_name']; ?>
+                                        <a class="border-r border-black pr-[3px] mr-1"><?= $_SESSION['client_name']; ?>
                                         </a>
                                         <a href="src/includes/logout.php">Log out</a>
                                     </div>
                                 <?php else : ?>
                                     <div class="child:text-black hidden md:block">
-                                        <a class="border-r border-black pr-[3px] mr-1"><?php echo $_SESSION['administrator_name']; ?>
+                                        <a class="border-r border-black pr-[3px] mr-1"><?= $_SESSION['administrator_name']; ?>
                                         </a>
                                         <a href="src/includes/logout.php">Log out</a>
                                     </div>
@@ -232,10 +230,9 @@ session_start();
                             <?php endif ?>
 
                             <?php if (!isset($_SESSION['client_name'])) { ?>
-                                <!-- <img onclick="window.location.href='src/pages/login.php'" class="open-btn dropbtn color-black cursor-pointer w-9  h-9 object-contain sm:block sm:mr-1  " src="src/images/cart.png" alt="" /> -->
                             <?php } else { ?>
                                 <p id="basket-count" class="bg-amber-400 rounded-3xl w-5 h-5 text-center absolute top-2 right-[55px] sm:block sm:right-[55px] md:right-[17px] md:block">
-                                    <?php echo $count ?>
+                                    <?= $rows ?>
                                 </p>
                                 <img onclick="openPopup()" class="open-btn dropbtn color-black cursor-pointer w-9  h-9 object-contain sm:block sm:mr-1  " src="src/images/cart.png" alt="" />
                             <?php } ?>
@@ -262,38 +259,40 @@ session_start();
                 </div>
                 <div class="p-3 mt-6">
                     <?php
-                    if ($count > 0) {
+                    if ($rows > 0) {
                     ?>
                         <p class="text-center text-lg font-medium mb-3">Your Items</p>
                         <?php
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $plantId = $row['plantId'];
-                            $plantName = $row['plantName'];
-                            $plantImage = $row['plantImage'];
-                            $plantPrice = $row['plantPrice'];
-                            $quantity = $row['quantity'];
+                        foreach ($Items as $item1) {
+                            $plantId = $item1->getPlant()->getId();
+                            $plantName = $item1->getPlant()->getName();
+                            $plantImage = $item1->getPlant()->getImage();
+                            $plantPrice = $item1->getPlant()->getPrice();
+                            $quantity = $item1->getQuantity();
                         ?>
                             <div class="flex flex-col relative border-2 border-gray-400 w-full h-[140px] rounded-md mb-2">
                                 <div class="flex items-center justify-end w-full bg-[#19911D] h-4 rounded-tl-[4px] rounded-tr-[4px]">
                                 </div>
                                 <div class="flex gap-2 flex-col items-center justify-between md:flex-row">
-                                    <img class="object-contain h-[124px]" src="src/images/Plants/<?php echo $plantImage ?>" alt="">
+                                    <img class="object-contain h-[124px]" src="src/images/Plants/<?= $plantImage ?>" alt="">
                                     <div class="flex flex-col justify-center items-start gap-2">
-                                        <p><?php echo $plantName ?></p>
-                                        <p>Quantity: <?php echo $quantity ?></p>
+                                        <p><?= $plantName ?></p>
+                                        <p>Quantity: <?= $quantity ?></p>
                                         <div class="flex gap-1 items-center">
-                                            <p>Price: <?php echo $plantPrice ?> DH</p>
+                                            <p>Price: <?= $plantPrice ?> DH</p>
                                             <p class=" text-xs">per unit</p>
                                         </div>
                                     </div>
                                     <div class="flex flex-col justify-end h-full gap-2 pr-2 pb-2">
-                                        <a href="src/pages/deleteitem.php?plantId=<?php echo $plantId ?>" class="p-1 bg-red-500 border border-black rounded-lg">Remove</a>
+                                        <form method="POST">
+                                            <input type="hidden" name="plantId" value="<?= $plantId ?>">
+                                            <input type="submit" name="removeItem" class="p-1 bg-red-500 border border-black rounded-lg" value="Remove">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                         <?php
                         }
-                        mysqli_data_seek($result, 0);
                     } else {
                         ?>
                         <div class="flex flex-col items-center justify-center h-[90vh] text-xl font-medium">
@@ -307,9 +306,11 @@ session_start();
                 </div>
                 <div class="fixed w-full md:w-[30%] h-14 bottom-0 p-1 bg-white">
                     <div class="flex justify-evenly">
-                        <?php if ($count > 0) { ?>
+                        <?php if ($rows > 0) { ?>
                             <a class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md" href="src/pages/checkout.php">Checkout</a>
-                            <a class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md" href="src/pages/emptycart.php">Empty cart</a>
+                            <form method="POST">
+                                <input type="submit" name="removeItems" class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md" value="Empty cart">
+                            </form>
                         <?php } else { ?>
 
                         <?php  } ?>
@@ -328,18 +329,18 @@ session_start();
                 <?php else : ?>
                     <?php if (isset($_SESSION['client_name'])) : ?>
                         <div class="flex justify-around items-center w-full child:text-black child:text-xl">
-                            <p><?php echo $_SESSION['client_name']; ?> </p>
+                            <p><?= $_SESSION['client_name']; ?> </p>
                             <a href="src/includes/logout.php">Log out</a>
                         </div>
 
                     <?php elseif (isset($_SESSION['admin_name'])) : ?>
                         <div class="flex justify-around items-center w-full child:text-black child:text-lg">
-                            <p><?php echo $_SESSION['admin_name']; ?> </p>
+                            <p><?= $_SESSION['admin_name']; ?> </p>
                             <a href="src/includes/logout.php">Log out</a>
                         </div>
                     <?php else : ?>
                         <div class="flex justify-around items-center w-full child:text-black child:text-lg">
-                            <p><?php echo $_SESSION['administrator_name']; ?> </p>
+                            <p><?= $_SESSION['administrator_name']; ?> </p>
                             <a href="src/includes/logout.php">Log out</a>
                         </div>
                     <?php endif ?>

@@ -1,6 +1,5 @@
 <?php
 require_once '../includes/pages.php';
-require_once '../includes/Category.php';
 require_once '../includes/CategoryDAO.php';
 
 if (isset($_SESSION['admin_name']) || isset($_SESSION['administrator_name'])) {

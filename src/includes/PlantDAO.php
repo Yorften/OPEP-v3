@@ -55,6 +55,28 @@ class PlantDAO
         return $Plants;
     }
 
+    public function getPlantsCategoryPage($start, $rows_per_page)
+    {
+        $id = $this->getObject()->getCategory();
+        $stmt = $this->db->prepare("SELECT * FROM plants JOIN categories ON plants.categoryId = categories.categoryId WHERE categoryId = ? LIMIT ?,?");
+        $stmt->bindParam(1, $id, PDO::PARAM_INT);
+        $stmt->bindParam(2, $start, PDO::PARAM_INT);
+        $stmt->bindParam(3, $rows_per_page, PDO::PARAM_INT);
+        $stmt->execute();
+        $Plants = array();
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->Plant = new Plant();
+            $this->Plant->setId($row['plantId']);
+            $this->Plant->setName($row['plantName']);
+            $this->Plant->setDesc($row['plantDesc']);
+            $this->Plant->setImage($row['plantImage']);
+            $this->Plant->setPrice($row['plantPrice']);
+            $this->Plant->setCategory($row['categoryName']);
+            array_push($Plants, $this->Plant);
+        }
+        return $Plants;
+    }
+
     public function plantExists()
     {
         $name = $this->Plant->getName();

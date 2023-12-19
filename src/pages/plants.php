@@ -155,40 +155,40 @@ if (isset($_POST['delete'])) {
                     <span onclick="closePopup()" class="text-2xl font-bold cursor-pointer mr-3">&times;</span>
                 </div>
             </div>
-            <form method="post" enctype="multipart/form-data" class="flex flex-col justify-between items-center w-full h-full mt-[10vh]">
+            <form method="post" onsubmit="return validateForm()" enctype="multipart/form-data" class="flex flex-col justify-between items-center w-full h-full mt-[10vh]">
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                    <div id="plantInput" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant name</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plant" type="text" name="plant" placeholder="Name" autocomplete="off">
                     </div>
-                    <div id="plantErr" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantErr" class="text-red-600 text-center md:text-left text-xs pl-3"></div>
                 </div>
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                    <div id="plantdescInput" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant description</p>
                         <textarea required name="plantdesc" id="plantdesc" cols="10" rows="3" class=" resize-none p-1"></textarea>
                     </div>
-                    <div id="plantdescErr" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantdescErr" class="text-red-600 text-center md:text-left text-xs pl-3"></div>
                 </div>
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                    <div id="plantpriceInput" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant price</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plantprice" type="text" name="plantprice" placeholder="Price" autocomplete="off" pattern="[0-9]+" title="Please enter numbers only">
                     </div>
-                    <div id="plantpriceErr" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantpriceErr" class="text-red-600 text-center md:text-left text-xs pl-3"></div>
                 </div>
                 <div class="flex flex-col gap-3 mb-3 w-11/12 md:w-4/6 md:flex-row">
                     <div class="flex flex-col md:w-1/2">
-                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                        <div id="plantimgInput" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                             <p class="text-xs">Plant image</p>
                             <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plantimg" type="file" name="plantimg" autocomplete="off">
                         </div>
-                        <div id="plantimgErr" class="text-red-600 text-xs pl-3"></div>
+                        <div id="plantimgErr" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                     </div>
                     <div class="flex flex-col md:w-1/2">
-                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md md:h-[63.9px]">
+                        <div id="categoryInput" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md md:h-[63.9px]">
                             <p class="text-xs">Plant category</p>
-                            <select required class="block leading-5 text-gray-700 bg-white border-transparent rounded-md focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300" id=" category" name="category" autocomplete="off">
+                            <select required class="block leading-5 text-gray-700 bg-white border-transparent rounded-md focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300" id="category" name="category" autocomplete="off">
                                 <option value="" hidden disabled selected>Select...</option>
                                 <?php
                                 $result = $category->getCategories();
@@ -207,7 +207,7 @@ if (isset($_POST['delete'])) {
                                 ?>
                             </select>
                         </div>
-                        <div id="categoryErr" class="text-red-600 text-xs pl-3"></div>
+                        <div id="categoryErr" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                     </div>
                 </div>
 
@@ -226,39 +226,39 @@ if (isset($_POST['delete'])) {
                     <span onclick="closePopup()" class="text-2xl font-bold cursor-pointer mr-3">&times;</span>
                 </div>
             </div>
-            <form method="post" enctype="multipart/form-data" class="flex flex-col justify-between items-center w-full h-full mt-[10vh]">
+            <form method="post" onsubmit="return validateFormEdit()" enctype="multipart/form-data" class="flex flex-col justify-between items-center w-full h-full mt-[10vh]">
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                    <div id="plantInput2" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant name</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plant2" type="text" name="plant" placeholder="Name" autocomplete="off">
                     </div>
-                    <div id="plantERR2" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantErr2" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                 </div>
                 <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
-                    <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
+                    <div id="plantdescInput2" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant description</p>
                         <textarea required name="plantdesc" id="plantdesc2" cols="10" rows="3" class=" resize-none p-1"></textarea>
 
                     </div>
-                    <div id="plantdescERR2" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantdescErr2" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                 </div>
-                <div class="flex flex-col mb-3 w-11/12 md:w-4/6">
+                <div id="plantpriceInput2" class="flex flex-col mb-3 w-11/12 md:w-4/6">
                     <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                         <p class="text-xs">Plant price</p>
                         <input required class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plantprice2" type="text" name="plantprice" placeholder="Price" autocomplete="off" pattern="[0-9]+" title="Please enter numbers only">
                     </div>
-                    <div id="plantpriceERR2" class="text-red-600 text-xs pl-3"></div>
+                    <div id="plantpriceErr2" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                 </div>
                 <div class="flex flex-col gap-3 mb-3 w-11/12 md:w-4/6 md:flex-row">
-                    <div class="flex flex-col md:w-1/2">
+                    <div id="plantimgInput2" class="flex flex-col md:w-1/2">
                         <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md">
                             <p class="text-xs">Plant image</p>
                             <input class="placeholder:font-light placeholder:text-xs focus:outline-none" id="plantimg2" type="file" name="plantimg" autocomplete="off">
                         </div>
-                        <div id="plantimgERR2" class="text-red-600 text-xs pl-3"></div>
+                        <div id="plantimgErr2" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                     </div>
                     <div class="flex flex-col md:w-1/2">
-                        <div class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md md:h-[63.9px]">
+                        <div id="categoryInput2" class="flex flex-col border-2 border-[#A1A1A1] p-2 rounded-md md:h-[63.9px]">
                             <p class="text-xs">Plant category</p>
                             <select required class="block leading-5 text-gray-700 bg-white border-transparent rounded-md focus:outline-none focus:ring focus:ring-blue-300 focus:border-blue-300" id="category2" name="category" autocomplete="off">
                                 <option value="" hidden disabled selected>Select...</option>
@@ -279,7 +279,7 @@ if (isset($_POST['delete'])) {
                                 ?>
                             </select>
                         </div>
-                        <div id="categoryERR2" class="text-red-600 text-xs pl-3"></div>
+                        <div id="categoryErr2" class="text-red-600 text-xs text-center md:text-left pl-3"></div>
                     </div>
                 </div>
                 <input type="hidden" value="" id="plantId" name="plantId">
@@ -410,6 +410,7 @@ if (isset($_POST['delete'])) {
         </div>
     </div>
     <script src="../js/popup.js"></script>
+    <script src="../js/regex_plants.js"></script>
 </body>
 
 </html>

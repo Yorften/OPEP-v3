@@ -3,152 +3,181 @@ function printError(Id, Msg) {
 }
 
 function validateForm() {
-  var username = document.getElementById("username").value;
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
-  var repeat = document.getElementById("repeat").value;
+  let plant = document.getElementById("plant").value;
+  let plantdesc = document.getElementById("plantdesc").value;
+  let plantprice = document.getElementById("plantprice").value;
+  let plantimg = document.getElementById("plantimg").value;
+  let category = document.getElementById("category").value;
 
-  var userErr = validateName(username);
-  var emailErr = validateEmail(email);
-  var passwordErr = validatePassword(password);
-  var repeatErr = validateRepeat(password, repeat);
+  let plantErr = validatePlant(plant);
+  let plantdescErr = validateDesc(plantdesc);
+  let plantpriceErr = validatePrice(plantprice);
+  let plantimgErr = validateImg(plantimg);
+  let categoryErr = validateCategory(category);
 
-  if (userErr && emailErr && passwordErr && repeatErr) {
+  if (plantErr && plantdescErr && plantpriceErr && plantimgErr && categoryErr) {
     console.log("true");
     return true;
   } else return false;
 }
 
-function validateLogin() {
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
+// function validateFormEdit() {
+//   let plant = document.getElementById("plant2").value;
+//   let plantdesc = document.getElementById("plantdesc2").value;
+//   let plantprice = document.getElementById("plantprice2").value;
+//   let plantimg = document.getElementById("plantimg2").value;
+//   let category = document.getElementById("category2").value;
 
-  var emailErr = validateEmail(email);
-  var passwordErr = validatePassword(password);
 
-  if (emailErr && passwordErr) {
-    console.log("true");
-    return true;
-  } else return false;
-}
+//   let plantErr = validatePlantEdit(plant);
+//   let plantdescErr = validateDescEdit(plantdesc);
+//   let plantpriceErr = validatePriceEdit(plantprice);
+//   let plantimgErr = validateImgEdit(plantimg);
+//   let categoryErr = validateCategoryEdit(category);
 
-function validateName(username) {
-  if (username == "" || username == null) {
-    document.getElementById("userInput").classList.add("border-red-500");
-    printError("userErr", "Please enter your username");
+//   if (plantErr && plantdescErr && plantpriceErr && plantimgErr && categoryErr) {
+//     console.log("true");
+//     return true;
+//   } else return false;
+// }
+
+function validatePlant(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantInput").classList.add("border-red-500");
+    printError("plantErr", "Please enter a plant name");
     return false;
   } else {
-    var regex = /^[a-zA-Z0-9]+$/;
-    if (!regex.test(username)) {
-      document.getElementById("userInput").classList.add("border-red-500");
+    var regex = /^(?!\s)[\w\sé]+$/;
+    if (!regex.test(arg)) {
+      document.getElementById("plantInput").classList.add("border-red-500");
+      printError("plantErr", "Please enter a valid name (special characters)");
+      return false;
+    } else {
+      document.getElementById("plantInput").classList.remove("border-red-500");
+      printError("plantErr", "");
+      return true;
+    }
+  }
+}
+
+function validateDesc(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantdescInput").classList.add("border-red-500");
+    printError("plantdescErr", "Please enter a plant name");
+    return false;
+  } else {
+    var regex = /^(?!\s)[\w\sé]+$/;
+    if (!regex.test(arg)) {
+      document.getElementById("plantdescInput").classList.add("border-red-500");
       printError(
-        "userErr",
-        "Please enter a valid username (no spaces/special characters)"
+        "plantdescErr",
+        "Please enter a valid name (special characters)"
       );
       return false;
     } else {
-      document.getElementById("userInput").classList.remove("border-red-500");
-      printError("userErr", "");
+      document
+        .getElementById("plantdescInput")
+        .classList.remove("border-red-500");
+      printError("plantdescErr", "");
       return true;
     }
   }
 }
 
-function validateEmail(email) {
-  if (email == "" || email == null) {
-    document.getElementById("emailInput").classList.add("border-red-500");
-    printError("emailErr", "Please enter your email.");
+function validatePrice(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantpriceInput").classList.add("border-red-500");
+    printError("plantpriceErr", "Please enter the plant price");
     return false;
   } else {
-    var regex = /^[a-zA-Z0-9]+@[a-z]+\.[a-zA-Z]{2,3}$/;
-    if (!regex.test(email)) {
-      document.getElementById("emailInput").classList.add("border-red-500");
-      printError("emailErr", "Please enter a valid email (example@gmail.com)");
-      return false;
-    } else {
-      document.getElementById("emailInput").classList.remove("border-red-500");
-      printError("emailErr", "");
-      return true;
-    }
-  }
-}
-
-function validatePassword(password) {
-  if (password == "" || password == null) {
-    document.getElementById("passwordInput").classList.add("border-red-500");
-    printError("passwordErr", "Please enter your password");
-    return false;
-  } else {
-    var regex = /^.{8,}$/;
-    if (!regex.test(password)) {
-      document.getElementById("passwordInput").classList.add("border-red-500");
-      printError("passwordErr", "Password must contain atleast 8 characters");
+    var regex = /^\d+$/;
+    if (!regex.test(arg)) {
+      document
+        .getElementById("plantpriceInput")
+        .classList.add("border-red-500");
+      printError("plantpriceErr", "Please enter a number");
       return false;
     } else {
       document
-        .getElementById("passwordInput")
+        .getElementById("plantpriceInput")
         .classList.remove("border-red-500");
-      printError("passwordErr", "");
+      printError("plantpriceErr", "");
       return true;
     }
   }
 }
-// message
-function validateRepeat(password, repeat) {
-  if (repeat == "" || repeat == null) {
-    document.getElementById("repeatInput").classList.add("border-red-500");
-    printError("repeatErr", "Please repeat the password");
+
+function validateImg(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("plantimgInput").classList.add("border-red-500");
+    printError("plantimgErr", "Please enter a plant name");
     return false;
   } else {
-    if (password != repeat) {
-      document.getElementById("repeatInput").classList.add("border-red-500");
-      printError("repeatErr", "Passwords do not match");
-      return false;
-    } else {
-      document.getElementById("repeatInput").classList.remove("border-red-500");
-      printError("repeatErr", "");
-      return true;
-    }
+    document.getElementById("plantimgInput").classList.remove("border-red-500");
+    printError("plantimgErr", "");
+    return true;
   }
 }
 
-function keydownValidation() {
-  var username = document.getElementById("username");
-  var email = document.getElementById("email");
-  var password = document.getElementById("password");
-  var repeat = document.getElementById("repeat");
+function validateCategory(arg) {
+  if (arg == "" || arg == null) {
+    document.getElementById("categoryInput").classList.add("border-red-500");
+    printError("categoryErr", "Please select a category");
+    return false;
+  } else {
+    document.getElementById("categoryInput").classList.remove("border-red-500");
+    printError("categoryErr", "");
+    return true;
+  }
+}
 
-  username.addEventListener("input", function () {
-    validateName(username.value);
+// ----------------------------------------------------------
+
+function keydownValidation() {
+  let plant = document.getElementById("plant");
+  let plantdesc = document.getElementById("plantdesc");
+  let plantprice = document.getElementById("plantprice");
+  let plantimg = document.getElementById("plantimg");
+  let category = document.getElementById("category");
+
+  plant.addEventListener("input", function () {
+    validatePlant(plant.value);
   });
-  email.addEventListener("input", function () {
-    validateEmail(email.value);
+  plantdesc.addEventListener("input", function () {
+    validateDesc(plantdesc.value);
   });
-  password.addEventListener("input", function () {
-    validatePassword(password.value);
+  plantprice.addEventListener("input", function () {
+    validatePrice(plantprice.value);
   });
-  repeat.addEventListener("input", function () {
-    validateRepeat(password.value, repeat.value);
+  plantimg.addEventListener("input", function () {
+    validateImg(plantimg.value);
+  });
+  category.addEventListener("input", function () {
+    validateCategory(category.value);
   });
 }
 
 function initValidation() {
-  var username = document.getElementById("username");
-  var email = document.getElementById("email");
-  var password = document.getElementById("password");
-  var repeat = document.getElementById("repeat");
+  let plant = document.getElementById("plant");
+  let plantdesc = document.getElementById("plantdesc");
+  let plantprice = document.getElementById("plantprice");
+  let plantimg = document.getElementById("plantimg");
+  let category = document.getElementById("category");
 
-  username.addEventListener("blur", function () {
-    validateName(username.value);
+  plant.addEventListener("blur", function () {
+    validatePlant(plant.value);
   });
-  email.addEventListener("blur", function () {
-    validateEmail(email.value);
+  plantdesc.addEventListener("blur", function () {
+    validateDesc(plantdesc.value);
   });
-  password.addEventListener("blur", function () {
-    validatePassword(password.value);
+  plantprice.addEventListener("blur", function () {
+    validatePrice(plantprice.value);
   });
-  repeat.addEventListener("blur", function () {
-    validateRepeat(password.value, repeat.value);
+  plantimg.addEventListener("blur", function () {
+    validateImg(plantimg.value);
+  });
+  category.addEventListener("blur", function () {
+    validateCategory(category.value);
   });
 }
 

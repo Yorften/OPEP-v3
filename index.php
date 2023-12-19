@@ -1,6 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+ini_set('display_errors', 0);
+ini_set('display_startup_errors', 0);
 error_reporting(E_ALL);
 
 require_once 'src/includes/CartDAO.php';
@@ -392,7 +392,7 @@ $Cart = new CartDAO();
         </div>
     </main>
     <div class="flex flex-col items-center justify-between bg-[#bdff72] md:h-[38.5vh]">
-        <div class="flex flex-col gap-10 text-center md:gap-0 md:flex md:flex-row md:items-center md:justify-around md:pt-12">
+        <div class="w-full flex flex-col gap-10 text-center md:gap-0 md:flex md:flex-row md:items-center md:justify-around md:pt-12">
             <div class=" mt-3 text-black flex flex-col md:mt-0 gap-3">
                 <a href="#">Home</a>
                 <a href="src/pages/catalog.php">Our Catalog</a>

@@ -1,5 +1,5 @@
 <?php
-
+require_once '../includes/CartDAO.php';
 require_once '../includes/authentification.php';
 
 $register = new Register();

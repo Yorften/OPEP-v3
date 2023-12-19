@@ -1,6 +1,5 @@
 <?php
-
-session_start();
+require_once '../includes/CartDAO.php';
 
 if (!isset($_SESSION['client_name'])) {
     echo "You don't have permission";

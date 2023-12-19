@@ -1,4 +1,5 @@
 <?php
+require_once '../includes/CartDAO.php';
 require_once '../includes/authentification.php';
 
 $login = new Login();

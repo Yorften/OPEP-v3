@@ -5,6 +5,7 @@ class Cart
 
     private $Id;
     private $CartId;
+    private $Plant_CartId;
     private Plant $Plant;
     private $Quantity;
     private $isSelected;
@@ -121,6 +122,26 @@ class Cart
     public function setIsCommanded($isCommanded)
     {
         $this->isCommanded = $isCommanded;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Plant_CartId
+     */ 
+    public function getPlant_CartId()
+    {
+        return $this->Plant_CartId;
+    }
+
+    /**
+     * Set the value of Plant_CartId
+     *
+     * @return  self
+     */ 
+    public function setPlant_CartId($Plant_CartId)
+    {
+        $this->Plant_CartId = $Plant_CartId;
 
         return $this;
     }

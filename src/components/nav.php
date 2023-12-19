@@ -9,6 +9,7 @@
             $selected = 1;
             $totalPrice = 0;
             $totalPrice2 = 0;
+
             $Cart->getCart()->setCartId($cartId);
             $Cart->getCart()->setIsCommanded($commanded);
             $Cart->getCart()->setIsSelected($notselected);
@@ -171,7 +172,7 @@
                              <div class="flex flex-col justify-end h-full gap-2 pr-2 pb-2">
                                  <form method="POST">
                                      <input type="hidden" name="plantId" value="<?= $plantId ?>">
-                                     <input type="submit" name="removeItem" class="p-1 bg-red-500 border border-black rounded-lg" value="Remove">
+                                     <input type="submit" name="removeItem" class="p-1 bg-red-500 border border-black rounded-lg cursor-pointer hover:bg-red-400" value="Remove">
                                  </form>
                              </div>
                          </div>
@@ -194,7 +195,7 @@
                  <?php if ($rows > 0) { ?>
                      <a class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md" href="../pages/checkout.php">Checkout</a>
                      <form method="POST">
-                         <input type="submit" name="removeItems" class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md" value="Empty cart">
+                         <input type="submit" name="removeItems" class="border border-black bg-[#19911D] font-semibold p-1 hover:bg-[#5edb64] rounded-md cursor-pointer" value="Empty cart">
                      </form>
                  <?php } else { ?>
 

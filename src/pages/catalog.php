@@ -13,38 +13,44 @@ if (!isset($_SESSION['client_name'])) {
 $allPages = new Pages();
 $Plants = new PlantDAO();
 $Categories = new CategoryDAO();
+$Cart = new CartDAO();
 
 
 if (isset($_POST['addCart'])) {
     $plantId = $_POST['plantId'];
     $cartId = $_SESSION['client_cart'];
-    $commanded = 0;
-    $select = "SELECT * FROM plants_carts WHERE plantId = ? AND isCommanded = ? AND cartId = ?";
-    $stmt = $conn->prepare($select);
-    $stmt->bind_param("iii", $plantId, $commanded, $cartId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $quantity = $row['quantity'];
-        $quantity += 1;
+    $Cart->getCart()->getPlant()->setId($plantId);
+    $Cart->getCart()->setCartId($cartId);
 
-        $update = "UPDATE plants_carts SET quantity = ? WHERE plantId = ? AND cartId = ?";
-        $stmt = $conn->prepare($update);
-        $stmt->bind_param("iii", $quantity, $plantId, $cartId);
-        $stmt->execute();
-
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+    $result = $Cart->PlantExistsInCart($Cart->getCart());
+    if ($result !== NULL) {
+        $isSelected = $result->getIsSelected();
+        if ($isSelected !== 0) {
+            $msg[] = "The product you're trying to add is already selected for a checkout";
+        } else {
+            $qunatity = $result->getQuantity();
+            $Cart->getCart()->getPlant()->setId($plantId);
+            $Cart->getCart()->setCartId($cartId);
+            $Cart->getCart()->setQuantity($qunatity);
+            $result = $Cart->incrementQuantity($Cart->getCart());
+            if ($result) {
+                header('Location: ' . $_SERVER['HTTP_REFERER']);
+                exit;
+            } else {
+                $msg2[] = "Database Error";
+                exit;
+            }
+        }
     } else {
 
-        $insert = "INSERT INTO plants_carts (cartId, plantId) VALUES (?,?)";
-        $stmt = $conn->prepare($insert);
-        $stmt->bind_param("ii", $cartId, $plantId);
-        $stmt->execute();
-        $stmt->close();
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
-        exit;
+        $result = $Cart->addToCart($Cart->getCart());
+        if ($result) {
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            exit;
+        } else {
+            $msg2[] = "Database Error";
+            exit;
+        }
     }
 }
 ?>
@@ -77,6 +83,22 @@ if (isset($_POST['addCart'])) {
             echo 'No categories in database';
         } ?>
         <div class="flex flex-col justify-between items-center border-2 border-amber-600 rounded-xl m-2 md:h-fit">
+            <?php
+            if (isset($msg)) {
+                foreach ($msg as $error) {
+                    echo '<div class="bg-red-500 mb-3 px-2 rounded-lg">';
+                    echo '<p class="text-white text-lg text-center">' . $error . '</p>';
+                    echo '</div>';
+                }
+            }
+            if (isset($msg2)) {
+                foreach ($msg2 as $error) {
+                    echo '<div class="bg-green-500 mb-3 px-2 rounded-lg">';
+                    echo '<p class="text-white text-lg text-center">' . $error . '</p>';
+                    echo '</div>';
+                }
+            }
+            ?>
             <div class="grid gap-4 w-[90%] mt-6 rounded-lg mx-auto text-center grid-cols-2 md:w-[95%] md:grid-cols-3">
                 <!-- content -->
                 <?php

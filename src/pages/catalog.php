@@ -5,11 +5,6 @@ require_once '../includes/CartDAO.php';
 require_once '../includes/CategoryDAO.php';
 require_once '../includes/PlantDAO.php';
 
-if (!isset($_SESSION['client_name'])) {
-    echo "You don't have permission";
-    exit;
-}
-
 $allPages = new Pages();
 $Plants = new PlantDAO();
 $Categories = new CategoryDAO();
@@ -148,7 +143,11 @@ if (isset($_POST['addCart'])) {
                                 </div>
                                 <form method="post" class="flex flex-col items-center justify-center gap-1">
                                     <input type="text" name="plantId" value="<?= $id ?>" hidden>
-                                    <button type="submit" name="addCart" class="z-10 p-2 bg-amber-400 border border-black rounded-lg">Add to cart</button>
+                                    <?php if (!isset($_SESSION['client_name'])) { ?>
+                                        <a href="login.php" class="z-10 p-2 bg-amber-400 border border-black rounded-lg">Add to cart</a>
+                                    <?php } else { ?>
+                                        <button type="submit" name="addCart" class="z-10 p-2 bg-amber-400 border border-black rounded-lg">Add to cart</button>
+                                    <?php } ?>
                                     <p class="font-bold"><?= $price ?>DH</p>
                                 </form>
                             </div>

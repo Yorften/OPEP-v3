@@ -82,7 +82,7 @@ if (isset($_POST['addCart'])) {
                 <?php
 
                 if (isset($_GET['categoryId'])) {
-                    $categoryId = $_GET['categoyId'];
+                    $categoryId = $_GET['categoryId'];
 
                     $start = 0;
                     $rows_per_page = 6;
@@ -138,7 +138,7 @@ if (isset($_POST['addCart'])) {
                     echo 'No client accounts in database';
                 }
                 ?>
-                <?php if (!isset($_GET['categoryName'])) { ?>
+                <?php if (!isset($_GET['categoryId'])) { ?>
                     <div class="w-full mt-4 md:mt-8">
                         <div class="pl-2 md:pl-8">
                             <?php
@@ -201,10 +201,10 @@ if (isset($_POST['addCart'])) {
                         </div>
                         <div class="flex flex-row justify-center items-center gap-3">
 
-                            <a href="?page=1&categoryName=<?= $_GET['categoryName'] ?>">First</a>
+                            <a href="?page=1&categoryId=<?= $_GET['categoryId'] ?>">First</a>
                             <?php if (isset($_GET['page']) && $_GET['page'] > 1) { ?>
 
-                                <a href="?page=<?= $_GET['page'] - 1 ?>&categoryName=<?= $_GET['categoryName'] ?>">Previous</a>
+                                <a href="?page=<?= $_GET['page'] - 1 ?>&categoryId=<?= $_GET['categoryId'] ?>">Previous</a>
 
                             <?php } else { ?>
                                 <a class="cursor-pointer">Previous</a>
@@ -213,7 +213,7 @@ if (isset($_POST['addCart'])) {
                             <?php
                             for ($i = 1; $i <= $pages; $i++) {
                             ?>
-                                <a href="?page=<?= $i ?>&categoryName=<?= $_GET['categoryName'] ?>" class=""><?= $i ?></a>
+                                <a href="?page=<?= $i ?>&categoryId=<?= $_GET['categoryId'] ?>" class=""><?= $i ?></a>
                             <?php
                             }
                             ?>
@@ -223,16 +223,16 @@ if (isset($_POST['addCart'])) {
                             ?>
                                     <a class="cursor-pointer">Next</a>
                                 <?php } else { ?>
-                                    <a href="?page=2&categoryName=<?= $_GET['categoryName'] ?>">Next</a>
+                                    <a href="?page=2&categoryId=<?= $_GET['categoryId'] ?>">Next</a>
                                 <?php } ?>
 
                             <?php } elseif ($_GET['page'] >= $pages) { ?>
                                 <a class="cursor-pointer">Next</a>
                             <?php } else { ?>
-                                <a href="?page=<?= $_GET['page'] + 1 ?>&categoryName=<?= $_GET['categoryName'] ?>">Next</a>
+                                <a href="?page=<?= $_GET['page'] + 1 ?>&categoryId=<?= $_GET['categoryId'] ?>">Next</a>
                             <?php }
                             ?>
-                            <a href="?page=<?= $pages ?>&categoryName=<?= $_GET['categoryName'] ?>">Last</a>
+                            <a href="?page=<?= $pages ?>&categoryId=<?= $_GET['categoryId'] ?>">Last</a>
                         </div>
                     </div>
                 <?php } ?>
